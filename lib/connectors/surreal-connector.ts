@@ -62,6 +62,8 @@ export class SurrealConnector implements Connector {
   async query(queryDescription: QueryDescription): Promise<any | any[]> {
     await this._makeConnection();
 
+	console.log(queryDescription);
+
     const query = this._translator.translateToQuery(queryDescription);
     const response = await this._client.query(query,queryDescription.values);
     const results = response.rows as Values[];
