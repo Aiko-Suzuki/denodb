@@ -16,6 +16,7 @@ export type { LoggerConfig } from "https://deno.land/x/mysql@v2.10.2/mod.ts";
 export { Client as PostgresClient } from "https://deno.land/x/postgres@v0.16.1/mod.ts";
 
 export { DB as SQLiteClient } from "https://deno.land/x/sqlite@v3.4.0/mod.ts";
+export { default as SurrealClient } from "https://deno.land/x/surrealdb@v0.2.1/mod.ts";
 
 export { MongoClient as MongoDBClient, Bson } from "https://deno.land/x/mongo@v0.30.1/mod.ts";
 export type { ConnectOptions as MongoDBClientOptions } from "https://deno.land/x/mongo@v0.30.1/mod.ts";

@@ -10,6 +10,8 @@ export { MySQLConnector } from "./lib/connectors/mysql-connector.ts";
 export type { MySQLOptions } from "./lib/connectors/mysql-connector.ts";
 export { PostgresConnector } from "./lib/connectors/postgres-connector.ts";
 export type { PostgresOptions } from "./lib/connectors/postgres-connector.ts";
+export { SurrealConnector } from "./lib/connectors/surreal-connector.ts";
 export { SQLite3Connector } from "./lib/connectors/sqlite3-connector.ts";
+export type { SurrealOptions } from "./lib/connectors/surreal-connector.ts";
 export type { SQLite3Options } from "./lib/connectors/sqlite3-connector.ts";
 export { connectorFactory } from "./lib/connectors/factory.ts";
