@@ -1,7 +1,7 @@
 import { SurrealClient } from "../../deps.ts";
 import type { Connector, ConnectorOptions } from "./connector.ts";
-import { SQLTranslator } from "../translators/sql-translator.ts";
-import type { SupportedSQLDatabaseDialect } from "../translators/sql-translator.ts";
+import { SurrealTranslator } from "../translators/surreal-translator.ts";
+import type { SupportedSQLDatabaseDialect } from "../translators/surreal-translator.ts";
 import type { QueryDescription } from "../query-builder.ts";
 import type { Values } from "../data-types.ts";
 
@@ -17,11 +17,11 @@ interface SurrealOptionsWith extends ConnectorOptions {
 export type SurrealOptions = SurrealOptionsWith;
 
 export class SurrealConnector implements Connector {
-  _dialect: SupportedSQLDatabaseDialect = "postgres";
+  _dialect: SupportedSQLDatabaseDialect = "surreal";
 
   _client: SurrealClient;
   _options: SurrealOptions;
-  _translator: SQLTranslator;
+  _translator: SurrealTranslator;
   _connected = false;
 
   /** Create a PostgreSQL connection. */
@@ -32,7 +32,7 @@ export class SurrealConnector implements Connector {
     } else {
 		throw new Error("Surreal URI is required");
     }
-    this._translator = new SQLTranslator(this._dialect);
+    this._translator = new SurrealTranslator(this._dialect);
   }
 
   async _makeConnection() {
@@ -61,8 +61,6 @@ export class SurrealConnector implements Connector {
   // deno-lint-ignore no-explicit-any
   async query(queryDescription: QueryDescription): Promise<any | any[]> {
     await this._makeConnection();
-
-	console.log(queryDescription);
 
     const query = this._translator.translateToQuery(queryDescription);
     const response = await this._client.query(query,queryDescription.values);

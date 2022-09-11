@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-case-declarations
 import { snakeCase, SQLQueryBuilder } from "../../deps.ts";
 import type { FieldAlias } from "../data-types.ts";
 import { addFieldToSchema } from "../helpers/fields.ts";
@@ -8,7 +9,7 @@ import type { Translator } from "./translator.ts";
 // @see http://knexjs.org
 export type SupportedSQLDatabaseDialect = "surreal";
 
-export class SQLTranslator implements Translator {
+export class SurrealTranslator implements Translator {
 	_dialect: SupportedSQLDatabaseDialect;
 
 	constructor(dialect: SupportedSQLDatabaseDialect) {
@@ -66,24 +67,6 @@ export class SQLTranslator implements Translator {
 		if (query.wheres) {
 			query.wheres.forEach((where) => {
 				queryBuilder = queryBuilder.where(where.field, where.operator, where.value);
-			});
-		}
-
-		if (query.joins) {
-			query.joins.forEach((join) => {
-				queryBuilder = queryBuilder.join(join.joinTable, join.originField, "=", join.targetField);
-			});
-		}
-
-		if (query.leftOuterJoins) {
-			query.leftOuterJoins.forEach((join) => {
-				queryBuilder = queryBuilder.leftOuterJoin(join.joinTable, join.originField, join.targetField);
-			});
-		}
-
-		if (query.leftJoins) {
-			query.leftJoins.forEach((join) => {
-				queryBuilder = queryBuilder.leftJoin(join.joinTable, join.originField, join.targetField);
 			});
 		}
 
