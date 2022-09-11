@@ -63,7 +63,7 @@ export class SurrealConnector implements Connector {
     await this._makeConnection();
 
     const query = this._translator.translateToQuery(queryDescription);
-    const response = await this._client.query(query,"");
+    const response = await this._client.query(query,queryDescription.values);
     const results = response.rows as Values[];
 
     if (queryDescription.type === "insert") {
