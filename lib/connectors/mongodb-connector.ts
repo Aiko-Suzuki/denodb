@@ -116,8 +116,8 @@ export class MongoDBConnector implements Connector {
         await collection.deleteMany({});
         break;
 
-      case "insert"  :{
-		const defaultedValues = queryDescription.schema.defaults;
+      case "insert": {
+        const defaultedValues = queryDescription.schema.defaults;
         let values = Array.isArray(queryDescription.values)
           ? queryDescription.values!
           : [queryDescription.values!];
@@ -141,16 +141,17 @@ export class MongoDBConnector implements Connector {
 
         const recordIds = insertedRecords.insertedIds as unknown as string[];
         return await queryDescription.schema.find(recordIds);
-	  }
+      }
 
-      case "select":{
+      case "select": {
         const selectFields: Object[] = [];
 
         if (queryDescription.whereIn) {
           if (queryDescription.whereIn.field === "_id") {
-            queryDescription.whereIn.possibleValues = queryDescription.whereIn.possibleValues.map(
-              (value) => new Bson.ObjectId(value as string)
-            );
+            queryDescription.whereIn.possibleValues = queryDescription.whereIn
+              .possibleValues.map(
+                (value) => new Bson.ObjectId(value as string),
+              );
           }
 
           wheres[queryDescription.whereIn.field] = {
@@ -223,7 +224,7 @@ export class MongoDBConnector implements Connector {
 
         results = await collection.aggregate(selectFields).toArray();
         break;
-	}
+      }
 
       case "update":
         await collection.updateMany(wheres, { $set: queryDescription.values! });

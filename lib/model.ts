@@ -65,7 +65,7 @@ export type ModelEventListeners = {
 
 /** Model that can be used with a `Database`. */
 export class Model {
-  [attribute: string]: FieldValue | Function
+  [attribute: string]: FieldValue | Function;
 
   /** Table name as it should be saved in the database. */
   static table = "";
@@ -714,9 +714,7 @@ export class Model {
   static orWhere<T extends ModelSchema>(this: T, fields: Values): T;
   static orWhere<T extends ModelSchema>(
     this: T,
-
     fieldOrFields: string | Values | FieldOperatorOption[],
-
     operatorOrFieldValue?: Operator | FieldValue,
     fieldValue?: FieldValue,
   ) {
@@ -738,7 +736,6 @@ export class Model {
         );
       }
     } else {
-
       for (const [field, value] of Object.entries(fieldOrFields)) {
         if (value === undefined) {
           continue;
@@ -755,7 +752,6 @@ export class Model {
 
     return this;
   }
-
 
   /** Update one or multiple records. Also update `updated_at` if `timestamps` is `true`.
    *

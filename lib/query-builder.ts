@@ -220,7 +220,7 @@ export class QueryBuilder {
     value: FieldValue,
   ) {
     this._query.orWhere = this._query.orWhere ?? [];
-      
+
     const whereClause = {
       field,
       operator,
