@@ -28,7 +28,7 @@ const getMySQLConnection = (options = {}, debug = true): Database => {
 };
 
 const getSQLiteConnection = (options = {}, debug = true): Database => {
-  const connection = new SQLite3Connector(defaultSQLitePath);
+  const connection = new SQLite3Connector(defaultSQLiteOptions);
 
   const database = new Database(connection);
 
