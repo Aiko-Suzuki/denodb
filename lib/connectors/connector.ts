@@ -34,13 +34,13 @@ export interface Connector {
   _pool?: ConnectorPool
 
   /** Gets the client or the pool connected to the database*/
-  _getClientOrPool(): ConnectorPool | ConnectorClient
+  _getClientOrPool?(): ConnectorPool | ConnectorClient
 
   /** Connect to an external database instance. */
   _makeConnection(): void | Promise<any>
 
   /** Gets the client connected to the database */
-  getClient(): any
+  getClient?(): any
 
   /** Gets the pool connected to the database */
   getPool?(): any
