@@ -16,13 +16,13 @@ const defaultSQLiteOptions = {
 };
 
 const defaultPostgreSQLPoolOptions = {
-  uri: "postgres://postgres:user@localhost:5432/test",
+  uri: "postgres://postgres:postgres@localhost:5432/test",
   size: 2,
-  lazy: true
+  lazy: true,
 };
 
 const defaultPostgreSQLOptions = {
-  uri: "postgres://postgres:user@localhost:5432/test"
+  uri: "postgres://postgres:postgres@localhost:5432/test",
 };
 
 const getMySQLConnection = (options = {}, debug = true): Database => {
