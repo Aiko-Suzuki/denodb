@@ -2,16 +2,16 @@ import type { QueryDescription } from "../query-builder.ts";
 import { Translator } from "../translators/translator.ts";
 
 /** Default connector options. */
-export interface ConnectorOptions { }
+export interface ConnectorOptions {}
 
 /** Default pool options. */
-export interface ConnectorPoolOptions { }
+export interface ConnectorPoolOptions {}
 
 /** Default connector client. */
-export interface ConnectorClient { }
+export interface ConnectorClient {}
 
 /** Default connector pool. */
-export interface ConnectorPool { }
+export interface ConnectorPool {}
 
 /** Connector interface for a database provider connection. */
 export interface Connector {
@@ -28,22 +28,22 @@ export interface Connector {
   _options: ConnectorOptions;
 
   /** Is the client connected to an external instance. */
-  _connected?: boolean
+  _connected?: boolean;
 
   /** Is the optional pool for making connections to an external instance. */
-  _pool?: ConnectorPool
+  _pool?: ConnectorPool;
 
   /** Gets the client or the pool connected to the database*/
-  _getClientOrPool?(): ConnectorPool | ConnectorClient
+  _getClientOrPool?(): ConnectorPool | ConnectorClient;
 
   /** Connect to an external database instance. */
-  _makeConnection(): void | Promise<any>
+  _makeConnection(): void | Promise<any>;
 
   /** Gets the client connected to the database */
-  getClient?(): any
+  getClient?(): any;
 
   /** Gets the pool connected to the database */
-  getPool?(): any
+  getPool?(): any;
 
   /** Test connection. */
   ping(): Promise<boolean>;

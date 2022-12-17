@@ -14,6 +14,7 @@ export interface MySQLOptions extends ConnectorOptions {
   charset?: string;
   logger?: LoggerConfig;
   debug?: boolean;
+  poolSize?: number;
 }
 
 export class MySQLConnector implements Connector {
@@ -48,6 +49,7 @@ export class MySQLConnector implements Connector {
       db: this._options.database,
       password: this._options.password,
       port: this._options.port ?? 3306,
+      poolSize: this._options.poolSize ?? 1,
       charset: this._options.charset ?? "utf8",
     });
 

@@ -69,4 +69,9 @@ const getPostgreSQLConnection = (options = {}, debug = true): Database => {
   return connection;
 };
 
-export { getMySQLConnection, getSQLiteConnection, getPostgreSQLPoolConnection, getPostgreSQLConnection };
+export {
+  getMySQLConnection,
+  getPostgreSQLConnection,
+  getPostgreSQLPoolConnection,
+  getSQLiteConnection,
+};

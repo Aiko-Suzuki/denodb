@@ -1,5 +1,9 @@
 import { PostgresClient, PostgresPool } from "../../deps.ts";
-import type { Connector, ConnectorOptions, ConnectorPoolOptions } from "./connector.ts";
+import type {
+  Connector,
+  ConnectorOptions,
+  ConnectorPoolOptions,
+} from "./connector.ts";
 import { SQLTranslator } from "../translators/sql-translator.ts";
 import type { SupportedSQLDatabaseDialect } from "../translators/sql-translator.ts";
 import type { QueryDescription } from "../query-builder.ts";
@@ -17,7 +21,11 @@ interface PostgresOptionsWithURI extends ConnectorOptions {
   uri: string;
 }
 
-interface PostgresPoolOptions extends ConnectorPoolOptions, PostgresOptionsWithConfig, PostgresOptionsWithURI {
+interface PostgresPoolOptions
+  extends
+    ConnectorPoolOptions,
+    PostgresOptionsWithConfig,
+    PostgresOptionsWithURI {
   size: number;
   lazy: boolean;
 }
@@ -35,26 +43,26 @@ export class PostgresConnector implements Connector {
   constructor(options: PostgresOptions) {
     this._options = options;
     if (this._isPoolConnector()) {
-      this._pool = new PostgresPool("uri" in options ? options.uri : {
-        hostname: options.host,
-        user: options.username,
-        ...options,
-      },
-        options.size,
-        options.lazy
-      );
-    } else
-      if ("uri" in options) {
-        this._client = new PostgresClient(options.uri);
-      } else {
-        this._client = new PostgresClient({
+      this._pool = new PostgresPool(
+        "uri" in options ? options.uri : {
           hostname: options.host,
           user: options.username,
-          password: options.password,
-          database: options.database,
-          port: options.port ?? 5432,
-        });
-      }
+          ...options,
+        },
+        options.size,
+        options.lazy,
+      );
+    } else if ("uri" in options) {
+      this._client = new PostgresClient(options.uri);
+    } else {
+      this._client = new PostgresClient({
+        hostname: options.host,
+        user: options.username,
+        password: options.password,
+        database: options.database,
+        port: options.port ?? 5432,
+      });
+    }
     this._translator = new SQLTranslator(this._dialect);
   }
 
@@ -74,9 +82,9 @@ export class PostgresConnector implements Connector {
       await this._client!.connect();
       return this._client!;
     } else if (this._pool?.available || !this._pool?.available) {
-      return await this.getPool()?.connect()
+      return await this.getPool()?.connect();
     } else {
-      throw new Error("no connections available")
+      throw new Error("no connections available");
     }
   }
 
@@ -91,12 +99,11 @@ export class PostgresConnector implements Connector {
   async ping() {
     try {
       const connection = await this._makeConnection();
-      console.log(connection)
+      console.log(connection);
       const [result] =
-        (await connection!.queryArray("SELECT 1 + 1 as result")
-        ).rows[0];
+        (await connection!.queryArray("SELECT 1 + 1 as result")).rows[0];
 
-      console.log(result)
+      console.log(result);
       return result === 2;
     } catch {
       return false;
@@ -105,7 +112,7 @@ export class PostgresConnector implements Connector {
 
   // deno-lint-ignore no-explicit-any
   async query(queryDescription: QueryDescription): Promise<any | any[]> {
-    const client = await this._makeConnection()
+    const client = await this._makeConnection();
     const query = this._translator.translateToQuery(queryDescription);
     const response = await client!.queryObject(query);
     const results = response.rows as Values[];
@@ -117,7 +124,7 @@ export class PostgresConnector implements Connector {
   }
 
   async transaction(queries: () => Promise<void>) {
-    const client = await this._makeConnection()
+    const client = await this._makeConnection();
     const transaction = client!.createTransaction("transaction");
     await transaction.begin();
     await queries();
@@ -133,5 +140,4 @@ export class PostgresConnector implements Connector {
     }
     this._connected = false;
   }
-
 }
